@@ -31,4 +31,5 @@ jobs:
             ${{ matrix.image }}
           tags: |
             type=ref,event=branch
+            type=ref,event=tag
             type=sha, format=long, prefix=
