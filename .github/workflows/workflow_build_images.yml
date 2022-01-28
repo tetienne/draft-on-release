@@ -1,0 +1,34 @@
+name: Build images
+
+on:
+  push:
+  release:
+    types: [published]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: my-image
+
+    name: Build ${{ matrix.image }}
+
+    steps:
+      - name: Extract branch or tag name
+        shell: bash
+        run: echo "##[set-output name=ref;]$(echo ${GITHUB_REF_NAME})"
+        id: extract_ref
+
+      - name: Docker meta
+        id: meta_staging
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ${{ matrix.image }}
+          tags: |
+            type=ref,event=branch
+            type=sha, format=long, prefix=
