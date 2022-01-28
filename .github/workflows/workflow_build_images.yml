@@ -23,6 +23,9 @@ jobs:
         run: echo "##[set-output name=ref;]$(echo ${GITHUB_REF_NAME})"
         id: extract_ref
 
+      - name: echo
+        run: echo ${{ steps.extract_ref.outputs.branch }}
+
       - name: Docker meta
         id: meta_staging
         uses: docker/metadata-action@v3
